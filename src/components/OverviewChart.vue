@@ -41,8 +41,6 @@ export default {
 
     var dataout = { labels: [], datasets: [] }
 
-    console.log(this.chartDataVariable);
-
     dataout.labels = this.chartDataLabel;
 
     dataout.datasets = [this.chartDataVariable];

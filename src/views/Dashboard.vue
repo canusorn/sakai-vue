@@ -38,6 +38,7 @@ export default {
     components: { OverviewChart },
     data() {
         return {
+      espid:7884150,
             loaded: false,
             chartData: null,
             varAmount: 0
@@ -47,7 +48,7 @@ export default {
 
         this.loaded = false
 
-        fetch("http://192.168.0.101:3000/api")
+        fetch("http://192.168.0.101:3000/api/v1/"+this.espid)
             .then((res) => res.json())
             .then((data) => {
                 // console.log(typeof data)
