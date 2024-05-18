@@ -3,10 +3,8 @@
         <div class="col-12 xl:col-12">
             <div class="card" v-if="loaded">
                 <h5>Sales Overview</h5>
-                <OverviewChart 
-                v-for="varNo in varAmount" 
-                :chart-data-variable="this.chartData.datasets[varNo-1]"
-                :chart-data-label="this.chartData.labels" />
+                <OverviewChart v-for="varNo in varAmount" :chart-data-variable="this.chartData.datasets[varNo - 1]"
+                    :chart-data-label="this.chartData.labels" />
             </div>
         </div>
     </div>
@@ -38,7 +36,7 @@ export default {
     components: { OverviewChart },
     data() {
         return {
-      espid:7884150,
+            espid: 7884150,
             loaded: false,
             chartData: null,
             varAmount: 0
@@ -48,7 +46,7 @@ export default {
 
         this.loaded = false
 
-        fetch("http://192.168.0.101:3000/api/v1/"+this.espid)
+        fetch("http://192.168.0.101:3000/api/v1/" + this.espid)
             .then((res) => res.json())
             .then((data) => {
                 // console.log(typeof data)
