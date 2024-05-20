@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '@/layout/AppLayout.vue';
+import store from "@/store/index.js";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -12,6 +13,7 @@ const router = createRouter({
                     path: '/',
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue')
+                    , meta: { requiresAuth: true }
                 },
                 {
                     path: '/uikit/formlayout',
@@ -170,6 +172,15 @@ const router = createRouter({
             component: () => import('@/views/pages/auth/Error.vue')
         }
     ]
+});
+
+router.beforeEach(function (to, _, next) {
+    if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+        next('/auth/login');
+    }
+    else {
+        next();
+    }
 });
 
 export default router;

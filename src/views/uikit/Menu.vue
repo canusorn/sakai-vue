@@ -77,7 +77,7 @@ const nestedMenuitems = ref([
     },
     {
         label: 'Quit',
-        icon: 'pi pi-fw pi-sign-out'
+        icon: 'pi pi-fw pi-sign-out',
     }
 ]);
 const breadcrumbHome = ref({ icon: 'pi pi-home', to: '/' });

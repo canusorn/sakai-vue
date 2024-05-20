@@ -79,7 +79,7 @@ export default {
             if (
                 this.email === '' ||
                 !this.email.includes('@') ||
-                this.password.length < 6
+                this.password.length < 3
             ) {
                 this.formIsValid = false;
                 return;
@@ -91,7 +91,7 @@ export default {
                 email: this.email,
                 password: this.password,
             };
-            console.log(actionPayload);
+            // console.log(actionPayload);
 
             try {
             //     if (this.mode === 'login') {
@@ -99,8 +99,9 @@ export default {
             //     } else {
             //         await this.$store.dispatch('signup', actionPayload);
             //     }
-            //     const redirectUrl = '/' + (this.$route.query.redirect || 'coaches');
-            //     this.$router.replace(redirectUrl);
+
+                const redirectUrl = '/' + (this.$route.query.redirect || '');
+                this.$router.replace(redirectUrl);
             } catch (err) {
                 this.error = err.message || 'Failed to authenticate, try later.';
             }

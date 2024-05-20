@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useLayout } from '@/layout/composables/layout';
 import { useRouter } from 'vue-router';
+import store from "@/store/index.js";
 
 const { layoutConfig, onMenuToggle } = useLayout();
 
@@ -26,7 +27,10 @@ const onTopBarMenuButton = () => {
 };
 const onSettingsClick = () => {
     topbarMenuActive.value = false;
-    router.push('/documentation');
+
+    store.dispatch('logout');
+
+    router.push('auth/login');
 };
 const topbarMenuClasses = computed(() => {
     return {
@@ -85,8 +89,8 @@ const isOutsideClicked = (event) => {
                 <span>Profile</span>
             </button>
             <button @click="onSettingsClick()" class="p-link layout-topbar-button">
-                <i class="pi pi-cog"></i>
-                <span>Settings</span>
+                <i class="pi pi-fw pi-sign-out"></i>
+                <span>Logout</span>
             </button>
         </div>
     </div>
