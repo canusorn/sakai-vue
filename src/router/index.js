@@ -176,6 +176,8 @@ const router = createRouter({
 
 router.beforeEach(function (to, _, next) {
     if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+        // console.log(store.getters.isAuthenticated);
+        // alert('no login')
         next('/auth/login');
     }
     else {

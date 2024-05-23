@@ -1,4 +1,12 @@
-<script setup></script>
+<script>
+
+export default {
+    created() {
+        this.$store.dispatch('tryLogin');
+    },
+}
+
+</script>
 
 <template>
     <router-view />

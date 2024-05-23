@@ -1,5 +1,3 @@
-let timer;
-
 export default {
   async login(context, payload) {
     return context.dispatch('auth', {
@@ -35,18 +33,19 @@ export default {
 
     const responseData = await response.json();
     console.log(responseData);
+
     if (!response.ok) {
       const error = new Error(
         responseData.message || 'Failed to authenticate. Check your login data.'
       );
+      console.log(error);
       throw error;
     }
-
     // const expiresIn = +responseData.expiresIn * 1000;
     // const expiresIn = 5000;
     // const expirationDate = new Date().getTime() + expiresIn;
-
-    localStorage.setItem('token', responseData.token);
+    localStorage.setItem('accessToken', responseData.access_token);
+    localStorage.setItem('refreshToken', responseData.refresh_token);
     localStorage.setItem('userId', payload.email);
     // localStorage.setItem('tokenExpiration', expirationDate);
 
@@ -55,38 +54,34 @@ export default {
     // }, expiresIn);
 
     context.commit('setUser', {
-      token: responseData.token,
+      accessToken: responseData.access_token,
+      refreshToken: responseData.refresh_token,
       userId: payload.email
     });
+
+    console.log(responseData.refresh_token);
   },
-  // tryLogin(context) {
-  //   const token = localStorage.getItem('token');
-  //   const userId = localStorage.getItem('userId');
-  //   const tokenExpiration = localStorage.getItem('tokenExpiration');
+  tryLogin(context) {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    const userId = localStorage.getItem('userId');
 
-  //   const expiresIn = +tokenExpiration - new Date().getTime();
-
-  //   if (expiresIn < 0) {
-  //     return;
-  //   }
-
-  //   timer = setTimeout(function () {
-  //     context.dispatch('autoLogout');
-  //   }, expiresIn);
-
-  //   if (token && userId) {
-  //     context.commit('setUser', {
-  //       token: token,
-  //       userId: userId
-  //     });
-  //   }
-  // },
+    if (accessToken && refreshToken && userId) {
+      context.commit('setUser', {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        userId: userId
+      });
+    }
+  },
   logout(context) {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('userId');
 
     context.commit('setUser', {
-      token: null,
+      accessToken: null,
+      refreshToken: null,
       userId: null
     });
   },
