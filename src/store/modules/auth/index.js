@@ -7,7 +7,8 @@ export default {
     return {
       accessToken: null,
       refreshToken: null,
-      userId: null
+      userId: null,
+      serverURL: "http://192.168.0.101:3000"
     };
   },
   mutations,

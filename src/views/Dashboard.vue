@@ -13,6 +13,7 @@
 
 <script>
 import OverviewChart from '@/components/OverviewChart.vue';
+import store from "@/store/index.js";
 
 import {
     Chart as ChartJS, CategoryScale,
@@ -46,7 +47,14 @@ export default {
 
         this.loaded = false
 
-        fetch("http://192.168.0.101:3000/api/v1/" + this.espid)
+        fetch(store.getters.serverURL + "/api/v1/" + this.espid,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${store.getters.accessToken}`
+                }
+            }
+        )
             .then((res) => res.json())
             .then((data) => {
                 // console.log(typeof data)
