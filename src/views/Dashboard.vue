@@ -47,7 +47,7 @@ export default {
 
         this.loaded = false
 
-        fetch(store.getters.serverURL + "/api/v1/" + this.espid,
+        fetch(store.getters.serverURL + "/api/timedata/" + this.espid + "/getlastdata",
             {
                 method: "GET",
                 headers: {
