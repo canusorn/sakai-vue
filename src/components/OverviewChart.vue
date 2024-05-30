@@ -7,10 +7,12 @@
 
 <script>
 import { Line } from 'vue-chartjs'
+import 'chartjs-adapter-date-fns';
 import {
   Chart as ChartJS, 
   CategoryScale,
   LinearScale,
+  TimeScale,
   PointElement,
   LineElement,
   Title,
@@ -21,6 +23,7 @@ import {
 
 ChartJS.register(CategoryScale,
   LinearScale,
+  TimeScale,
   PointElement,
   LineElement,
   Title,
@@ -51,7 +54,7 @@ export default {
         },
         scales: {
           x: {
-            // type: 'time',
+            type: 'time',
             ticks: {
               source: 'auto',
               // Disabled rotation for performance
