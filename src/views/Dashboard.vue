@@ -1,13 +1,15 @@
 <template>
-    <div class="grid">
-        <div class="col-12 xl:col-12">
-            <div class="card" v-if="loaded">
-                <h5>Sales Overview</h5>
-                <OverviewChart v-for="varNo in varAmount" :chart-data-variable="this.chartData.datasets[varNo - 1]"
-                    :chart-data-label="this.chartData.labels" />
+    <!-- <div class="container-fluid"> -->
+        <div class="grid">
+            <div class="col-12 xl:col-12">
+                <div class="card" v-if="loaded">
+                    <h5>Sales Overview</h5>
+                    <OverviewChart v-for="varNo in varAmount" :chart-data-variable="this.chartData.datasets[varNo - 1]"
+                        :chart-data-label="this.chartData.labels" />
+                </div>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 </template>
 
 
@@ -15,24 +17,6 @@
 import OverviewChart from '@/components/OverviewChart.vue';
 import store from "@/store/index.js";
 import mqtt from "mqtt";
-
-import {
-    Chart as ChartJS, CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-} from 'chart.js'
-
-ChartJS.register(CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend)
 
 export default {
     components: { OverviewChart },
@@ -42,6 +26,7 @@ export default {
             loaded: false,
             chartData: null,
             varAmount: 0,
+            msg: "",
             connection: {
                 protocol: "ws",
                 host: "192.168.0.101",
@@ -98,7 +83,7 @@ export default {
                     this.varAmount = size - 2;
                     console.log("object size : " + size);
 
-                    var dataout = { labels: [], datasets: [] }
+                    const dataout = { labels: [], datasets: [] }
 
                     let labels = [], datasets = [];
 
@@ -120,7 +105,7 @@ export default {
 
 
                     this.chartData = dataout;
-                    // console.log(this.chartData);
+                    console.log(this.chartData);
                     this.loaded = true
                 })
                 .catch((err) => {
@@ -164,7 +149,17 @@ export default {
                     });
                     this.client.on("message", (topic, message) => {
                         this.receiveNews = this.receiveNews.concat(message);
+                        this.msg = JSON.parse(message);
+
+                        // if (this.loaded) {
+                        //     console.log(this.chartData);
+                        //     this.chartData.datasets['0'].data.push(this.msg.humid);
+                        //     this.chartData.datasets['1'].data.push(this.msg.temp);
+                        //     this.chartData.labels.push(String(Date.parse(new Date())));
+                        // }
+
                         console.log(`Received message ${message} from topic ${topic}`);
+                        // console.log(this.chartData.datasets);
                     });
                 }
             } catch (error) {
@@ -217,6 +212,9 @@ export default {
         this.initData();
         this.createConnection();
         this.doSubscribe();
-    }
+    },
+    //   computed: {
+    //       chartData() { return },
+    //     }
 }
 </script>
