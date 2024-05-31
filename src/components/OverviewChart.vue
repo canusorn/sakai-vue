@@ -112,9 +112,8 @@ export default {
   },
   watch: {
     newVar(newvar, _) {
-      console.log(newvar);
-      this.updateChart(newvar);
-      this.newVar = 0;
+      // console.log(newvar);
+      this.updateChart(newvar.value);
     }
   }
 }

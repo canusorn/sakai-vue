@@ -5,7 +5,7 @@
             <div class="card" v-if="loaded">
                 <h5>Sales Overview</h5>
                 <OverviewChart v-for="varNo in varAmount" :chart-data-variable="this.chartData.datasets[varNo - 1]"
-                    :chart-data-label="this.chartData.labels" :new-var="Object.values(this.msg)[varNo-1]"
+                    :chart-data-label="this.chartData.labels" :new-var="{value:Object.values(this.msg)[varNo-1] ,label: new Date()}"
                     />
             </div>
         </div>
@@ -27,7 +27,7 @@ export default {
             loaded: false,
             chartData: 0,
             varAmount: 0,
-            msg: null,
+            msg: {},
             connection: {
                 protocol: "ws",
                 host: "192.168.0.101",
