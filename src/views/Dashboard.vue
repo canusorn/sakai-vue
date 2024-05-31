@@ -1,14 +1,15 @@
 <template>
     <!-- <div class="container-fluid"> -->
-        <div class="grid">
-            <div class="col-12 xl:col-12">
-                <div class="card" v-if="loaded">
-                    <h5>Sales Overview</h5>
-                    <OverviewChart v-for="varNo in varAmount" :chart-data-variable="this.chartData.datasets[varNo - 1]"
-                        :chart-data-label="this.chartData.labels" />
-                </div>
+    <div class="grid">
+        <div class="col-12 xl:col-12">
+            <div class="card" v-if="loaded">
+                <h5>Sales Overview</h5>
+                <OverviewChart v-for="varNo in varAmount" :chart-data-variable="this.chartData.datasets[varNo - 1]"
+                    :chart-data-label="this.chartData.labels" :new-var="Object.values(this.msg)[varNo-1]"
+                    />
             </div>
         </div>
+    </div>
     <!-- </div> -->
 </template>
 
@@ -24,9 +25,9 @@ export default {
         return {
             espid: 7884150,
             loaded: false,
-            chartData: null,
+            chartData: 0,
             varAmount: 0,
-            msg: "",
+            msg: null,
             connection: {
                 protocol: "ws",
                 host: "192.168.0.101",
@@ -76,10 +77,11 @@ export default {
                 .then((data) => {
                     // console.log(typeof data)
                     // console.log(data)
+                    data.reverse();
 
                     this.loaded = false;
 
-                    let size = Object.keys(data[0]).length;
+                    let size = Object.keys(data.at(-1)).length;
                     this.varAmount = size - 2;
                     console.log("object size : " + size);
 
@@ -105,7 +107,7 @@ export default {
 
 
                     this.chartData = dataout;
-                    console.log(this.chartData);
+                    // console.log(this.chartData);
                     this.loaded = true
                 })
                 .catch((err) => {
@@ -151,6 +153,7 @@ export default {
                         this.receiveNews = this.receiveNews.concat(message);
                         this.msg = JSON.parse(message);
 
+                        // this.isupdate=true;
                         // if (this.loaded) {
                         //     console.log(this.chartData);
                         //     this.chartData.datasets['0'].data.push(this.msg.humid);

@@ -3,13 +3,14 @@
     <Line :data="chartData" :options="chartOptions" />
   </div>
   <h5 v-else>Loading...</h5>
+  <!-- <button @click="updateChart">Update Chart</button> -->
 </template>
 
 <script>
 import { Line } from 'vue-chartjs'
 import 'chartjs-adapter-date-fns';
 import {
-  Chart as ChartJS, 
+  Chart as ChartJS,
   CategoryScale,
   LinearScale,
   TimeScale,
@@ -17,7 +18,7 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend, 
+  Legend,
   Filler
 } from 'chart.js'
 
@@ -28,18 +29,19 @@ ChartJS.register(CategoryScale,
   LineElement,
   Title,
   Tooltip,
-  Legend, 
+  Legend,
   Filler)
 
 export default {
   name: 'OverviewChart',
-  props: ["chartDataVariable", "chartDataLabel"],
+  props: ["chartDataVariable", "chartDataLabel", "newVar"],
   components: { Line },
   data() {
     return {
       _loaded: false,
       chartData: {
       },
+      newVar: this.newVar,
       chartOptions: {
         borderColor: "rgba(200, 20, 20, 0.9)",
         backgroundColor: "rgba(255, 0, 0, 0.1)",
@@ -84,6 +86,36 @@ export default {
 
     this._loaded = true
 
+    // this.chart = new Chart(this.$refs.chart, {
+    //   type: 'line',
+    //   data: this.chartData,
+    //   options: this.chartOptions,
+    // });
+
+  },
+  // computed: {
+  //     chartData() { return /* mutable chart data */ },
+  // //     chartOptions() { return /* mutable chart options */ }
+  //   }
+  methods: {
+    updateChart(updateVar) {
+      // console.log(new Date());
+      this.chartData = {
+        ...this.chartData,
+        labels: [...this.chartData.labels, new Date()],
+        datasets: [{
+          ...this.chartData.datasets[0],
+          data: this.chartData.datasets[0].data = [...this.chartData.datasets[0].data, updateVar]
+        }]
+      }
+    },
+  },
+  watch: {
+    newVar(newvar, _) {
+      console.log(newvar);
+      this.updateChart(newvar);
+      this.newVar = 0;
+    }
   }
 }
 </script>
