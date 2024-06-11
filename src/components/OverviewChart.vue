@@ -1,6 +1,6 @@
 <template>
-  <div v-if="_loaded" class="container">
-    <Line :data="chartData" :options="chartOptions" />
+  <div v-if="_loaded">
+    <Line :data="chartData" :options="chartOptions" height="100px" />
   </div>
   <h5 v-else>Loading...</h5>
   <!-- <button @click="updateChart">Update Chart</button> -->

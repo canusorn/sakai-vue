@@ -1,12 +1,16 @@
 <template>
     <!-- <div class="container-fluid"> -->
     <div class="grid">
-        <div class="col-12 xl:col-12">
-            <div class="card" v-if="loaded">
-                <h5>Sales Overview</h5>
-                <OverviewChart v-for="varNo in varAmount" :chart-data-variable="this.chartData.datasets[varNo - 1]"
-                    :chart-data-label="this.chartData.labels" :new-var="{value:Object.values(this.msg)[varNo-1] ,label: new Date()}"
-                    />
+        <div class="col-md-6 col-12">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card" v-if="loaded" v-for="varNo in varAmount">
+                        <h5>Sales Overview</h5>
+                        <OverviewChart :chart-data-variable="this.chartData.datasets[varNo - 1]"
+                            :chart-data-label="this.chartData.labels"
+                            :new-var="{ value: Object.values(this.msg)[varNo - 1], label: new Date() }" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
