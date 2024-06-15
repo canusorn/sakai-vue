@@ -3,7 +3,6 @@
     <Line :data="chartData" :options="chartOptions" height="100px" />
   </div>
   <h5 v-else>Loading...</h5>
-  <!-- <button @click="updateChart">Update Chart</button> -->
 </template>
 
 <script>
@@ -43,16 +42,26 @@ export default {
       },
       newVar: this.newVar,
       chartOptions: {
-        borderColor: "rgba(200, 20, 20, 0.9)",
-        backgroundColor: "rgba(255, 0, 0, 0.1)",
-        // color:"rgba(1, 0, 0, 1)",
-        fill: true,
+        maintainAspectRatio: false,
         responsive: true,
+        backgroundColor: 'rgba(60,141,188,0.5)',
+        borderColor: 'rgba(60,141,188,0.8)',
+        fill: true,
+        pointColor: '#3b8bba',
+        pointStrokeColor: 'rgba(60,141,188,1)',
+        pointHighlightFill: '#fff',
+        pointHighlightStroke: 'rgba(60,141,188,1)',
+        pointRadius: 0.5,
         tension: 0.1,
         interaction: {
           mode: 'nearest',
           axis: 'x',
           intersect: false
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
         },
         scales: {
           x: {

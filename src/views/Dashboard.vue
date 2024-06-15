@@ -1,16 +1,22 @@
 <template>
     <!-- <div class="container-fluid"> -->
     <div class="grid">
-        <div class="col-md-6 col-12">
-            <div class="row">
-                <div class="col-6">
-                    <div class="card" v-if="loaded" v-for="varNo in varAmount">
-                        <h5>Sales Overview</h5>
-                        <OverviewChart :chart-data-variable="this.chartData.datasets[varNo - 1]"
-                            :chart-data-label="this.chartData.labels"
-                            :new-var="{ value: Object.values(this.msg)[varNo - 1], label: new Date() }" />
-                    </div>
+
+        <div class="col-12">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-3" v-if="loaded" v-for="varNo in varAmount">
+                    <ValueDisplay :label="this.chartData.datasets[varNo - 1].label" :value="Object.values(this.msg)[varNo - 1]"></ValueDisplay>
                 </div>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-6" v-if="loaded" v-for="varNo in varAmount">
+            <div class="card">
+                <h5>{{ this.chartData.datasets[varNo - 1].label }}</h5>
+                <OverviewChart :chart-data-variable="this.chartData.datasets[varNo - 1]"
+                    :chart-data-label="this.chartData.labels"
+                    :new-var="{ value: Object.values(this.msg)[varNo - 1], label: new Date() }" />
+
             </div>
         </div>
     </div>
@@ -20,11 +26,12 @@
 
 <script>
 import OverviewChart from '@/components/OverviewChart.vue';
+import ValueDisplay from '@/components/ValueDisplay.vue';
 import store from "@/store/index.js";
 import mqtt from "mqtt";
 
 export default {
-    components: { OverviewChart },
+    components: { OverviewChart, ValueDisplay },
     data() {
         return {
             espid: 7884150,
@@ -184,7 +191,8 @@ export default {
                 this.subscribeSuccess = true
                 console.log('Subscribe to topics res', res)
             })
-        }, doUnSubscribe() {
+        },
+        doUnSubscribe() {
             const { topic } = this.subscription
             this.client.unsubscribe(topic, error => {
                 if (error) {
