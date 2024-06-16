@@ -38,8 +38,7 @@ export default {
   data() {
     return {
       _loaded: false,
-      chartData: {
-      },
+      chartData: {},
       newVar: this.newVar,
       chartOptions: {
         maintainAspectRatio: false,

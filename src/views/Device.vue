@@ -3,8 +3,8 @@
     <div class="grid">
 
         <div class="col-12">
-            <div class="grid">
-                <div class="col-12 md:col-6 lg:col-3" v-if="loaded" v-for="varNo in varAmount">
+            <div class="grid" v-if="loaded">
+                <div class="col-12 md:col-6 lg:col-3" v-for="varNo in varAmount">
                     <ValueDisplay :label="this.chartData.datasets[varNo - 1].label" :value="Object.values(this.msg)[varNo - 1]"></ValueDisplay>
                 </div>
             </div>
@@ -228,8 +228,5 @@ export default {
         this.createConnection();
         this.doSubscribe();
     },
-    //   computed: {
-    //       chartData() { return },
-    //     }
 }
 </script>

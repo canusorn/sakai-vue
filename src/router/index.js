@@ -10,9 +10,10 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
-                    path: '/',
-                    name: 'dashboard',
-                    component: () => import('@/views/Dashboard.vue')
+                    path: '/device',
+                    alias: '/',
+                    name: 'device',
+                    component: () => import('@/views/Device.vue')
                     , meta: { requiresAuth: true }
                 },
                 {
