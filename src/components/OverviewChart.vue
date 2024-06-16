@@ -1,6 +1,6 @@
 <template>
   <div v-if="_loaded">
-    <Line :data="chartData" :options="chartOptions" height="100px" />
+    <Line :data="chartData" :options="chartOptions" height="200px" />
   </div>
   <h5 v-else>Loading...</h5>
 </template>

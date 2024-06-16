@@ -11,7 +11,7 @@
         </div>
 
         <div class="col-12 lg:col-6" v-if="loaded" v-for="varNo in varAmount">
-            <div class="card">
+            <div class="card shadow-2">
                 <h5>{{ this.chartData.datasets[varNo - 1].label }}</h5>
                 <OverviewChart :chart-data-variable="this.chartData.datasets[varNo - 1]"
                     :chart-data-label="this.chartData.labels"
