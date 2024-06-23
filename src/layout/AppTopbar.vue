@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useLayout } from '@/layout/composables/layout';
 import { useRouter } from 'vue-router';
-import store from "@/store/index.js";
+import store from '@/store/index.js';
 
 const { layoutConfig, onMenuToggle } = useLayout();
 
@@ -30,7 +30,7 @@ const onSettingsClick = () => {
 
     store.dispatch('logout');
 
-    router.push('auth/login');
+    router.push('/auth/login');
 };
 const topbarMenuClasses = computed(() => {
     return {

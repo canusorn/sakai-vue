@@ -1,13 +1,13 @@
 import { createStore } from 'vuex';
 
-import requestsModule from './modules/requests/index.js';
+import devicesModule from './modules/device/index.js';
 import authModule from './modules/auth/index.js';
 
 const store = createStore({
-  modules: {
-    requests: requestsModule,
-    auth: authModule
-  }
+    modules: {
+        device: devicesModule,
+        auth: authModule
+    }
 });
 
 export default store;

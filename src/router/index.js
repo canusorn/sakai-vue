@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '@/layout/AppLayout.vue';
-import store from "@/store/index.js";
+import store from '@/store/index.js';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -13,8 +13,13 @@ const router = createRouter({
                     path: '/device',
                     alias: '/',
                     name: 'device',
-                    component: () => import('@/views/Device.vue')
-                    , meta: { requiresAuth: true }
+                    component: () => import('@/views/AllDevice.vue'),
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/device/:espId',
+                    component: () => import('@/views/Device.vue'),
+                    meta: { requiresAuth: true }
                 },
                 {
                     path: '/uikit/formlayout',
@@ -180,8 +185,7 @@ router.beforeEach(function (to, _, next) {
         // console.log(store.getters.isAuthenticated);
         // alert('no login')
         next('/auth/login');
-    }
-    else {
+    } else {
         next();
     }
 });
