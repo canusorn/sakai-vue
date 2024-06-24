@@ -90,7 +90,7 @@ export default {
                     dataout.datasets = datasets;
 
                     this.chartData = dataout;
-                    // console.log(this.chartData);
+                    // console.log(this.chartData.datasets[0].data[this.chartData.datasets[0].data.length - 1]);
                     this.loaded = true;
                 })
                 .catch((err) => {
@@ -225,7 +225,8 @@ export default {
             <div class="grid" v-if="loaded">
                 <div class="col-12 md:col-4 lg:col-2" v-for="varNo in varAmount">
                     <ValueDisplay :label="this.chartData.datasets[varNo - 1].label"
-                        :value="Object.values(this.msg)[varNo - 1]"></ValueDisplay>
+                        :value="Object.values(this.msg)[varNo - 1] ? Object.values(this.msg)[varNo - 1] : this.chartData.datasets[varNo - 1].data[[this.chartData.datasets[varNo - 1].data.length - 1]]">
+                    </ValueDisplay>
                 </div>
             </div>
         </div>

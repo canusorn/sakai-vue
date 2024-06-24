@@ -13,7 +13,6 @@ export default {
         return {
             _loaded: false,
             chartData: {},
-            newVar: this.newVar,
             chartOptions: {
                 maintainAspectRatio: false,
                 responsive: true,
