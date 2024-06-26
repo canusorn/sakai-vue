@@ -47,7 +47,7 @@ export default {
                 });
                 // console.log(dec); 
             }
-            console.log(devicelist);
+            // console.log(devicelist);
 
             const models = [{
                 label: 'My Devices',
