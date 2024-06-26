@@ -222,7 +222,7 @@ export default {
             }
         }
     },
-    computed:{
+    computed: {
     },
     mounted() {
         this.espid = this.$route.params.espId;
@@ -243,6 +243,16 @@ export default {
     //         console.log(this.subscription);
     //     }
     // }
+    watch: {
+        $route(newRoute) {
+            this.destroyConnection();
+            this.espid = newRoute.params.espId;
+            this.initChart();
+            this.initData();
+            this.createConnection();
+            this.doSubscribe();
+        }
+    }
 };
 </script>
 

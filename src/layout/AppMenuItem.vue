@@ -84,10 +84,10 @@ const checkActiveRoute = (item) => {
         </router-link>
         <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
             <ul v-show="root ? true : isActiveMenu" class="layout-submenu">
-                <app-menu-item v-for="(child, i) in item.items" :key="child" :index="i" :item="child" :parentItemKey="itemKey" :root="false"></app-menu-item>
+                <app-menu-item v-for="(child, i) in item.items" :key="child" :inde x="i" :item="child" :parentItemKey="itemKey" :root="false"></app-menu-item>
             </ul>
         </Transition>
-    </li>
+    </li> 
 </template>
 
 <style lang="scss" scoped></style>
