@@ -1,3 +1,29 @@
+<template>
+    <!-- <div class="container-fluid"> -->
+    <div class="grid">
+        <div class="col-12">
+            <div class="grid" v-if="loaded">
+                <div class="col-12 md:col-4 lg:col-2" v-for="varNo in varAmount">
+                    <ValueDisplay :label="this.chartData.datasets[varNo - 1].label"
+                        :value="Object.values(this.msg)[varNo - 1] ? Object.values(this.msg)[varNo - 1] : this.chartData.datasets[varNo - 1].data[[this.chartData.datasets[varNo - 1].data.length - 1]]">
+                    </ValueDisplay>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-6" v-if="loaded" v-for="varNo in varAmount">
+            <div class="card shadow-2">
+                <h5>{{ this.chartData.datasets[varNo - 1].label }}</h5>
+                <OverviewChart :chart-data-variable="this.chartData.datasets[varNo - 1]"
+                    :chart-data-label="this.chartData.labels"
+                    :new-var="{ value: Object.values(this.msg)[varNo - 1], label: new Date() }" />
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+</template>
+
+
 <script>
 import OverviewChart from '@/components/OverviewChart.vue';
 import ValueDisplay from '@/components/ValueDisplay.vue';
@@ -196,6 +222,8 @@ export default {
             }
         }
     },
+    computed:{
+    },
     mounted() {
         this.espid = this.$route.params.espId;
         this.initChart();
@@ -218,30 +246,6 @@ export default {
 };
 </script>
 
-<template>
-    <!-- <div class="container-fluid"> -->
-    <div class="grid">
-        <div class="col-12">
-            <div class="grid" v-if="loaded">
-                <div class="col-12 md:col-4 lg:col-2" v-for="varNo in varAmount">
-                    <ValueDisplay :label="this.chartData.datasets[varNo - 1].label"
-                        :value="Object.values(this.msg)[varNo - 1] ? Object.values(this.msg)[varNo - 1] : this.chartData.datasets[varNo - 1].data[[this.chartData.datasets[varNo - 1].data.length - 1]]">
-                    </ValueDisplay>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 lg:col-6" v-if="loaded" v-for="varNo in varAmount">
-            <div class="card shadow-2">
-                <h5>{{ this.chartData.datasets[varNo - 1].label }}</h5>
-                <OverviewChart :chart-data-variable="this.chartData.datasets[varNo - 1]"
-                    :chart-data-label="this.chartData.labels"
-                    :new-var="{ value: Object.values(this.msg)[varNo - 1], label: new Date() }" />
-            </div>
-        </div>
-    </div>
-    <!-- </div> -->
-</template>
 
 <style scoped>
 .card {
