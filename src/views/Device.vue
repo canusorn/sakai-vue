@@ -54,7 +54,7 @@ export default {
                 clientId: this.espid,
                 // auth
                 username: store.getters.userId,
-                password: store.getters.mqttPass
+                password: store.getters.accessToken
             },
             subscription: {
                 topic: '',
@@ -124,6 +124,7 @@ export default {
                 });
         },
         initData() {
+            this.connection.password = store.getters.accessToken;
             this.client = {
                 connected: false
             };
@@ -133,6 +134,7 @@ export default {
             this.subscription.topic = '/' + this.espid + '/#';
             this.publish.topic = '/' + this.espid + '/';
             this.connection.clientId = 'web-' + this.espid;
+            console.log(this.connection.password);
         },
         handleOnReConnect() {
             this.retryTimes += 1;

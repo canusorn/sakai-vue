@@ -30,11 +30,22 @@ export default {
     async mounted() {
         // if (!this.$store.getters.device) {
         //     await this.$store.dispatch('getDevice');
-            // console.log(this.$store.getters.device);
+        // console.log(this.$store.getters.device);
         // }
 
 
         // this.devices= this.$store.getters.device;
     },
+    // computed: {
+    //     count() {
+    //         return this.$store.getters.device; // Getter function
+    //     },
+    // },
+    // watch: {
+    //     count(newValue, oldValue) {
+    //         console.log('Count changed from', oldValue, 'to', newValue);
+    //         // Perform actions when count changes
+    //     },
+    // },
 }
 </script>
