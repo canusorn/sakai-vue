@@ -32,8 +32,14 @@ import mqtt from 'mqtt';
 
 export default {
     components: { OverviewChart, ValueDisplay },
+    beforeRouteUpdate() {
+        this.destroyConnection();
+        console.log('beforeRouteUpdate');
+        // next();
+    },
     beforeRouteLeave() {
         this.destroyConnection();
+        console.log('beforeRouteLeave');
     },
     data() {
         return {
@@ -134,7 +140,7 @@ export default {
             this.subscription.topic = '/' + this.espid + '/#';
             this.publish.topic = '/' + this.espid + '/';
             this.connection.clientId = 'web-' + this.espid;
-            console.log(this.connection.password);
+            // console.log(this.connection.password);
         },
         handleOnReConnect() {
             this.retryTimes += 1;
@@ -212,16 +218,13 @@ export default {
             });
         },
         destroyConnection() {
-            if (this.client.connected) {
+            // if (this.client.connected) {
                 try {
-                    this.client.end(false, () => {
-                        this.initData();
-                        console.log('Successfully disconnected!');
-                    });
+                    this.client.end();
                 } catch (error) {
                     console.log('Disconnect failed', error.toString());
                 }
-            }
+            // }
         }
     },
     computed: {
@@ -247,7 +250,9 @@ export default {
     // }
     watch: {
         $route(newRoute) {
-            this.destroyConnection();
+            //    await this.doUnSubscribe();
+            // this.destroyConnection();
+            // this.destroyConnection();
             this.espid = newRoute.params.espId;
             this.initChart();
             this.initData();
