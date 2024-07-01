@@ -33,13 +33,15 @@ import mqtt from 'mqtt';
 export default {
     components: { OverviewChart, ValueDisplay },
     beforeRouteUpdate() {
+        this.doUnSubscribe();
         this.destroyConnection();
-        console.log('beforeRouteUpdate');
+        // console.log('beforeRouteUpdate');
         // next();
     },
     beforeRouteLeave() {
+        this.doUnSubscribe();
         this.destroyConnection();
-        console.log('beforeRouteLeave');
+        // console.log('beforeRouteLeave');
     },
     data() {
         return {
@@ -56,7 +58,7 @@ export default {
                 // for more options, please refer to https://github.com/mqttjs/MQTT.js#mqttclientstreambuilder-options
                 clean: true,
                 connectTimeout: 30 * 1000, // ms
-                reconnectPeriod: 4000, // ms
+                reconnectPeriod: 10000, // ms
                 clientId: this.espid,
                 // auth
                 username: store.getters.userId,
@@ -227,8 +229,6 @@ export default {
             // }
         }
     },
-    computed: {
-    },
     mounted() {
         this.espid = this.$route.params.espId;
         this.initChart();
@@ -250,9 +250,6 @@ export default {
     // }
     watch: {
         $route(newRoute) {
-            //    await this.doUnSubscribe();
-            // this.destroyConnection();
-            // this.destroyConnection();
             this.espid = newRoute.params.espId;
             this.initChart();
             this.initData();
