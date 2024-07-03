@@ -59,7 +59,7 @@ export default {
                 clean: true,
                 connectTimeout: 30 * 1000, // ms
                 reconnectPeriod: 10000, // ms
-                clientId: this.espid,
+                clientId: 0,
                 // auth
                 username: store.getters.userId,
                 password: store.getters.accessToken
@@ -221,11 +221,11 @@ export default {
         },
         destroyConnection() {
             // if (this.client.connected) {
-                try {
-                    this.client.end();
-                } catch (error) {
-                    console.log('Disconnect failed', error.toString());
-                }
+            try {
+                this.client.end();
+            } catch (error) {
+                console.log('Disconnect failed', error.toString());
+            }
             // }
         }
     },
