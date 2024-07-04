@@ -141,8 +141,8 @@ export default {
             this.subscribeSuccess = false;
             this.subscription.topic = '/' + this.espid + '/#';
             this.publish.topic = '/' + this.espid + '/';
-            this.connection.clientId = 'web-' + this.espid;
-            // console.log(this.connection.password);
+            this.connection.clientId = 'WEB_' + this.espid;
+            console.log(this.espid);
         },
         handleOnReConnect() {
             this.retryTimes += 1;
