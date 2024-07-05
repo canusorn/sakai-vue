@@ -66,7 +66,7 @@ import OrderList from 'primevue/orderlist';
 import OrganizationChart from 'primevue/organizationchart';
 import OverlayPanel from 'primevue/overlaypanel';
 import Paginator from 'primevue/paginator';
-import Panel from 'primevue/panel';
+
 import PanelMenu from 'primevue/panelmenu';
 import Password from 'primevue/password';
 import PickList from 'primevue/picklist';
@@ -186,7 +186,7 @@ app.component('OrderList', OrderList);
 app.component('OrganizationChart', OrganizationChart);
 app.component('OverlayPanel', OverlayPanel);
 app.component('Paginator', Paginator);
-app.component('Panel', Panel);
+// app.component('Panel', Panel);
 app.component('PanelMenu', PanelMenu);
 app.component('Password', Password);
 app.component('PickList', PickList);

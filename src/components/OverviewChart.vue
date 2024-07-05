@@ -2,13 +2,14 @@
 import { Line } from 'vue-chartjs';
 import 'chartjs-adapter-date-fns';
 import { Chart as ChartJS, CategoryScale, LinearScale, TimeScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
+import Panel from 'primevue/panel';
 
 ChartJS.register(CategoryScale, LinearScale, TimeScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 export default {
     name: 'OverviewChart',
     props: ['chartDataVariable', 'chartDataLabel', 'newVar'],
-    components: { Line },
+    components: { Line,Panel },
     data() {
         return {
             _loaded: false,
@@ -101,8 +102,10 @@ export default {
 </script>
 
 <template>
+    <Panel :header="this.chartDataVariable.label" :toggleable="true">
     <div v-if="_loaded">
         <Line :data="chartData" :options="chartOptions" height="200px" />
     </div>
     <h5 v-else>Loading...</h5>
+    </Panel>
 </template>
