@@ -1,40 +1,23 @@
 <template>
-
     <!-- <div class="container-fluid"> -->
     <div class="grid">
-        <div class="col-12 md:col-6">
-            <h2>{{ this.thisDeviceInfo.name }}</h2>
-        </div>
-
-        <div class="col-12 md:col-6 text-right">
-            <div class="mb-3">
-                <span class="text-500 mb-2"><B>ID</B> : {{ this.thisDeviceInfo.espid }}</span>
-            </div>
-            <span class="text-500"><B>Last update</B> : {{ getLastupdate }}</span>
-        </div>
-
-
         <div class="col-12">
             <div class="grid" v-if="loaded">
-                <div class="col-12 md:col-4" v-for="varNo in varAmount">
-                    <!-- <h4>{{ this.chartData.datasets[0].data[this.chartData.datasets[0].data.length -1]
-                        }}</h4> -->
-                    <value-display :label="this.chartData.datasets[varNo - 1].label" :value="(Object.values(this.msg)[varNo - 1]) ?
-                (Object.values(this.msg)[varNo - 1]) :
-                (this.chartData.datasets[0].data[this.chartData.datasets[0].data[0].length - 1])" />
-
+                <div class="col-12 md:col-4 lg:col-2" v-for="varNo in varAmount">
+                    <ValueDisplay :label="this.chartData.datasets[varNo - 1].label"
+                        :value="Object.values(this.msg)[varNo - 1] ? Object.values(this.msg)[varNo - 1] : this.chartData.datasets[varNo - 1].data[[this.chartData.datasets[varNo - 1].data.length - 1]]">
+                    </ValueDisplay>
                 </div>
             </div>
         </div>
 
         <div class="col-12 lg:col-6" v-if="loaded" v-for="varNo in varAmount">
-            <Panel :header="this.chartData.datasets[varNo - 1].label" :toggleable="true">
-                <!-- <h5>{{ this.chartData.datasets[varNo - 1].label }}</h5> -->
+            <div class="card shadow-2">
+                <h5>{{ this.chartData.datasets[varNo - 1].label }}</h5>
                 <OverviewChart :chart-data-variable="this.chartData.datasets[varNo - 1]"
                     :chart-data-label="this.chartData.labels"
                     :new-var="{ value: Object.values(this.msg)[varNo - 1], label: new Date() }" />
-                <!-- </div> -->
-            </Panel>
+            </div>
         </div>
     </div>
     <!-- </div> -->
@@ -46,7 +29,6 @@ import OverviewChart from '@/components/OverviewChart.vue';
 import ValueDisplay from '@/components/ValueDisplay.vue';
 import store from '@/store/index.js';
 import mqtt from 'mqtt';
-import moment from 'moment'; // require
 
 export default {
     components: { OverviewChart, ValueDisplay },
@@ -65,11 +47,9 @@ export default {
         return {
             espid: null,
             loaded: false,
-            chartData: null,
+            chartData: 0,
             varAmount: 0,
             msg: {},
-            thisDeviceInfo: {},
-            lasttimeupdate: null,
             connection: {
                 protocol: 'ws',
                 host: '192.168.0.101',
@@ -104,10 +84,6 @@ export default {
         };
     },
     methods: {
-        initDeviceInfo() {
-            this.thisDeviceInfo = this.$store.getters.device.find(id => id.espid == this.espid);
-            //    console.dir(thisDeviceInfo.name) 
-        },
         initChart() {
             this.loaded = false;
 
@@ -127,7 +103,7 @@ export default {
 
                     let size = Object.keys(data.at(-1)).length;
                     this.varAmount = size - 2;
-                    console.log('object size : ' + this.varAmount);
+                    console.log('object size : ' + size);
 
                     const dataout = { labels: [], datasets: [] };
 
@@ -147,12 +123,8 @@ export default {
                     dataout.labels = labels;
                     dataout.datasets = datasets;
 
-                    this.lasttimeupdate = labels[labels.length - 1];
-
                     this.chartData = dataout;
                     // console.log(this.chartData.datasets[0].data[this.chartData.datasets[0].data.length - 1]);
-                    // console.log(this.chartData);
-                    // console.log(this.chartData.datasets[0].data.length);
                     this.loaded = true;
                 })
                 .catch((err) => {
@@ -202,9 +174,6 @@ export default {
                     this.client.on('message', (topic, message) => {
                         this.receiveNews = this.receiveNews.concat(message);
                         this.msg = JSON.parse(message);
-                        this.lasttimeupdate = new Date();
-
-                        // console.log(this.msg);
 
                         // this.isupdate=true;
                         // if (this.loaded) {
@@ -214,20 +183,20 @@ export default {
                         //     this.chartData.labels.push(String(Date.parse(new Date())));
                         // }
 
-                        console.log(`Received message\x1b[32m ${message} \x1b[0mfrom topic\x1b[32m ${topic}`);
+                        console.log(`Received message ${message} from topic ${topic}`);
                         // console.log(this.chartData.datasets);
                     });
                 }
             } catch (error) {
                 this.connecting = false;
-                console.error('mqtt.connect error', error);
+                console.log('mqtt.connect error', error);
             }
         },
         doSubscribe() {
             const { topic, qos } = this.subscription;
             this.client.subscribe(topic, { qos }, (error, res) => {
                 if (error) {
-                    console.error('Subscribe to topics error', error.message);
+                    console.log('Subscribe to topics error', error);
                     return;
                 }
                 this.subscribeSuccess = true;
@@ -238,7 +207,7 @@ export default {
             const { topic } = this.subscription;
             this.client.unsubscribe(topic, (error) => {
                 if (error) {
-                    console.error('Unsubscribe error', error.message);
+                    console.log('Unsubscribe error', error);
                 }
             });
         },
@@ -246,7 +215,7 @@ export default {
             const { topic, qos, payload } = this.publish;
             this.client.publish(topic, payload, { qos }, (error) => {
                 if (error) {
-                    console.error('Publish error', error.message);
+                    console.log('Publish error', error);
                 }
             });
         },
@@ -255,14 +224,13 @@ export default {
             try {
                 this.client.end();
             } catch (error) {
-                console.error('Disconnect failed', error.toString());
+                console.log('Disconnect failed', error.toString());
             }
             // }
         }
     },
     mounted() {
         this.espid = this.$route.params.espId;
-        this.initDeviceInfo();
         this.initChart();
         this.initData();
         this.createConnection();
@@ -282,27 +250,13 @@ export default {
     // }
     watch: {
         $route(newRoute) {
-            this.msg = {};
             this.espid = newRoute.params.espId;
-            this.initDeviceInfo();
             this.initChart();
             this.initData();
             this.createConnection();
             this.doSubscribe();
         }
-    },
-    computed: {
-        getLastupdate() {
-
-            if (this.lasttimeupdate) {
-                return moment(this.lasttimeupdate).format("YYYY-MM-DD HH:mm:ss");
-            } else {
-                return "loading...";
-            }
-
-        }
     }
-
 };
 </script>
 
