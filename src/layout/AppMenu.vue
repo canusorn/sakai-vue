@@ -10,7 +10,6 @@ export default {
         return {
             model:
                 [
-
                     {
                         label: 'Get Started',
                         items: [
@@ -33,7 +32,8 @@ export default {
                             {
                                 label: 'Submenu 1',
                                 icon: 'pi pi-fw pi-bookmark',
-                                to: '/test',
+                                // to: '/test',
+                                target: '/test',
                                 items: [
                                     {
                                         label: 'Submenu 1.1',
@@ -74,7 +74,8 @@ export default {
                     },
                 ]
             ,
-            devices: null, deviceloaded: true
+            devices: null, 
+            deviceloaded: true
         }
     }, beforeMount() {
         this.modelupdate(this.$store.getters.device);
@@ -87,7 +88,7 @@ export default {
         },
     },
     watch: {
-        count(newValue, oldValue) {
+        count(newValue) {
             // console.log('Count changed from', oldValue, 'to', newValue);
             // Perform actions when count changes
             this.modelupdate(newValue);
@@ -116,7 +117,7 @@ export default {
                 items: [{
                     label: 'Device',
                     icon: 'pi pi-fw pi-home',
-                    to: '/device',
+                    to: '/device/',
                     items: devicelist
                 }]
             }];
