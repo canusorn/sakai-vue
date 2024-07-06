@@ -31,11 +31,11 @@ const itemKey = ref(null);
 
 onBeforeMount(() => {
     itemKey.value = props.parentItemKey ? props.parentItemKey + '-' + props.index : String(props.index);
-    
+
     const activeItem = layoutState.activeMenuItem;
-    
+
     isActiveMenu.value = activeItem === itemKey.value || activeItem ? activeItem.startsWith(itemKey.value + '-') : false || route.path.includes(props.item.to);
-    
+
 });
 
 watch(
@@ -44,11 +44,13 @@ watch(
         isActiveMenu.value = newVal === itemKey.value || newVal.startsWith(itemKey.value + '-');
     }
 );
-const itemClick = (event, item) => {
+const itemClick = (event, item, pass = true) => {
     if (item.disabled) {
         event.preventDefault();
         return;
     }
+
+    console.log("disabled");
 
     const { overlayMenuActive, staticMenuMobileActive } = layoutState;
 
@@ -73,18 +75,23 @@ const checkActiveRoute = (item) => {
 <template>
     <li :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }">
         <div v-if="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
-        <a v-if="(!item.to) && item.visible !== false" :href="item.url"
-            @click="itemClick($event, item, index)" :class="item.class" :target="item.target" tabindex="0">
+        <a v-if="(!item.to) && item.visible !== false" :href="item.url" @click="itemClick($event, item, index)"
+            :class="item.class" :target="item.target" tabindex="0">
             <i :class="item.icon" class="layout-menuitem-icon"></i>
             <span class="layout-menuitem-text">{{ item.label }}</span>
             <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items"></i>
         </a>
+
         <router-link v-if="item.to && item.visible !== false"
             :class="[item.class, { 'active-route': checkActiveRoute(item) }]" tabindex="0" :to="item.to">
-            <i :class="item.icon" class="layout-menuitem-icon" @click="itemClick($event, {item:{disabled: true}})"></i>
-            <span class="layout-menuitem-text" @click="itemClick($event, {item:{disabled: true}})">{{ item.label }}</span>
-            <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items" @click="itemClick($event, item)"></i>
-        </router-link>
+            <i :class="item.icon" class="layout-menuitem-icon"
+                @click="itemClick($event, { item: { disabled: true } })"></i>
+            <span class="layout-menuitem-text" @click="itemClick($event, { item: { disabled: true } })">{{
+        item.label }}</span>
+            <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items"
+                @click.prevent="itemClick($event, item)"></i></router-link>
+
+
         <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
             <ul v-show="root ? true : isActiveMenu" class="layout-submenu">
                 <app-menu-item v-for="(child, i) in item.items" :key="child" :index="i" :item="child"
