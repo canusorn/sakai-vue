@@ -10,50 +10,16 @@ export default {
         return {
             model:
                 [
-                    {},
                     {
-                        label: 'Get Started',
+                        label: 'Prime Blocks',
                         items: [
-                            {
-                                label: 'Documentation',
-                                icon: 'pi pi-fw pi-question',
-                                to: '/documentation'
-                            },
-                            {
-                                label: 'View Source',
-                                icon: 'pi pi-fw pi-search',
-                                url: 'https://github.com/primefaces/sakai-vue',
-                                target: '_blank'
-                            },
+                            { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', to: '/blocks', badge: 'NEW' },
                         ]
                     },
                     {
-                        label: 'Hierarchy',
-                        items: [
-                            {
-                                label: 'Submenu 1',
-                                icon: 'pi pi-fw pi-bookmark',
-                                to: '/uikit/formlayout',
-                            },
-                            {
-                                label: 'Submenu 2',
-                                icon: 'pi pi-fw pi-bookmark',
-                                items: [
-                                    {
-                                        label: 'Submenu 2.1',
-                                        icon: 'pi pi-fw pi-bookmark',
-                                        items: [
-                                            { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                            { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' }
-                                        ]
-                                    },
-                                    {
-                                        label: 'Submenu 2.2',
-                                        icon: 'pi pi-fw pi-bookmark',
-                                        items: [{ label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' }]
-                                    }
-                                ]
-                            }
+                        label: 'Get Started', items: [
+                            { label: 'Documentation', icon: 'pi pi-fw pi-question', to: '/documentation' },
+                            { label: 'View Source', icon: 'pi pi-fw pi-search', url: 'https://github.com/primefaces/sakai-vue', target: '_blank' },
                         ]
                     },
                 ]
