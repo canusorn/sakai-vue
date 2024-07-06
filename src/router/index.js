@@ -11,19 +11,29 @@ const router = createRouter({
             children: [
                 {
                     path: '/',
-                    redirect: {name: 'device'},
+                    redirect: { name: 'allDevice' },
                     meta: { requiresAuth: true }
                 },
                 {
                     path: '/device',
-                    name: 'device',
-                    component: () => import('@/views/AllDevice.vue'),
+                    name: 'allDevice',
+                    component: () => import('@/views/device/AllDevice.vue'),
                     meta: { requiresAuth: true }
                 },
                 {
                     path: '/device/:espId',
-                    component: () => import('@/views/Device.vue'),
-                    meta: { requiresAuth: true }
+                    name: 'deviceId',
+                    redirect: { name: 'overviewDevice' },
+                    component: () => import('@/views/device/Device.vue'),
+                    meta: { requiresAuth: true },
+                    children: [
+                        {
+                            path: '/device/:espId/overview',
+                            name: 'overviewDevice',
+                            component: () => import('@/views/device/Device.overview.vue'),
+                            meta: { requiresAuth: true },
+                        }
+                    ]
                 },
                 {
                     path: '/uikit/formlayout',

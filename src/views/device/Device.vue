@@ -13,38 +13,29 @@
             <span class="text-500"><b>Last update :</b> {{ getLastupdate }}</span>
         </div>
 
+
         <div class="col-12">
-            <div class="grid">
-                <div class="col-12 sm:col-4 lg:col-2" v-if="loaded" v-for="varNo in varAmount">
-                    <value-display :label="this.chartData.datasets[varNo - 1].label"
-                        :value="Object.values(this.msg)[varNo - 1] ? Object.values(this.msg)[varNo - 1] : this.chartData.datasets[varNo - 1].data[[this.chartData.datasets[varNo - 1].data.length - 1]]">
-                    </value-display>
-                </div>
-            </div>
+            <TabMenu :model="nestedRouteItems" />
+            <!-- <router-view></router-view> -->
+            <device-overview v-if="this.activeTab === 'overview'" :msg="this.msg" :chartData="this.chartData"
+                :loaded="this.loaded" :varAmount="this.varAmount"></device-overview>
         </div>
 
-        <div class="col-12 lg:col-6" v-if="loaded" v-for="varNo in varAmount">
-
-            <overview-chart :chart-data-variable="this.chartData.datasets[varNo - 1]"
-                :chart-data-label="this.chartData.labels"
-                :new-var="{ value: Object.values(this.msg)[varNo - 1], label: new Date() }" />
-
-        </div>
     </div>
     <!-- </div> -->
 </template>
 
 
 <script>
-import OverviewChart from '@/components/OverviewChart.vue';
-import ValueDisplay from '@/components/ValueDisplay.vue';
+import DeviceOverview from '@/views/device/Device.overview.vue';
+import TabMenu from 'primevue/tabmenu';
 import store from '@/store/index.js';
 import mqtt from 'mqtt';
 import moment from 'moment';
 
 
 export default {
-    components: { OverviewChart, ValueDisplay },
+    components: { TabMenu, DeviceOverview },
     beforeRouteUpdate() {
         this.doUnSubscribe();
         this.destroyConnection();
@@ -58,6 +49,7 @@ export default {
     },
     data() {
         return {
+            activeTab: "overview",
             espid: null,
             loaded: false,
             chartData: 0,
@@ -95,10 +87,26 @@ export default {
             },
             subscribeSuccess: false,
             connecting: false,
-            retryTimes: 0
+            retryTimes: 0,
+            nestedRouteItems: [
+                {
+                    label: 'overview',
+                    to: '/device/:espId/overview',
+                    command: () => this.handleClick("overview")
+                },
+                {
+                    label: 'overview2',
+                    to: '/device/:espId/overview2',
+                    command: () => this.handleClick("overview2")
+                }
+            ]
         };
     },
     methods: {
+        handleClick(page) {
+            this.activeTab = page;
+            console.log(this.activeTab);
+        },
         initDeviceInfo() {
             this.thisDeviceInfo = this.$store.getters.device.find(id => id.espid == this.espid);
             //    console.dir(thisDeviceInfo.name) 

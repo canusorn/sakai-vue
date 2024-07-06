@@ -50,8 +50,6 @@ const itemClick = (event, item, pass = true) => {
         return;
     }
 
-    console.log("disabled");
-
     const { overlayMenuActive, staticMenuMobileActive } = layoutState;
 
     if ((item.to || item.url) && (staticMenuMobileActive.value || overlayMenuActive.value)) {
@@ -86,10 +84,11 @@ const checkActiveRoute = (item) => {
             :class="[item.class, { 'active-route': checkActiveRoute(item) }]" tabindex="0" :to="item.to">
             <i :class="item.icon" class="layout-menuitem-icon"
                 @click="itemClick($event, { item: { disabled: true } })"></i>
-            <span class="layout-menuitem-text" @click="itemClick($event, { item: { disabled: true } })">{{
-        item.label }}</span>
+            <span class="layout-menuitem-text" @click="itemClick($event, { item: { disabled: true } })">{{ item.label
+                }}</span>
             <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items"
-                @click.prevent="itemClick($event, item)"></i></router-link>
+                @click.prevent="itemClick($event, item)"></i>
+        </router-link>
 
 
         <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
