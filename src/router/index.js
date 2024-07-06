@@ -10,8 +10,12 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/',
+                    redirect: {name: 'device'},
+                    meta: { requiresAuth: true }
+                },
+                {
                     path: '/device',
-                    alias: '/',
                     name: 'device',
                     component: () => import('@/views/AllDevice.vue'),
                     meta: { requiresAuth: true }
