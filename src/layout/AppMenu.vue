@@ -33,23 +33,7 @@ export default {
                             {
                                 label: 'Submenu 1',
                                 icon: 'pi pi-fw pi-bookmark',
-                                to: '/test',
-                                items: [
-                                    {
-                                        label: 'Submenu 1.1',
-                                        icon: 'pi pi-fw pi-bookmark',
-                                        items: [
-                                            { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark',to: '/uikit/formlayout' },
-                                            { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                            { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' }
-                                        ]
-                                    },
-                                    {
-                                        label: 'Submenu 1.2',
-                                        icon: 'pi pi-fw pi-bookmark',
-                                        items: [{ label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' }]
-                                    }
-                                ]
+                                to: '/uikit/formlayout',
                             },
                             {
                                 label: 'Submenu 2',
