@@ -307,9 +307,7 @@ export default {
     watch: {
         $route(newRoute) {
             if (this.espid == newRoute.params.espId) {
-                if (this.tabmenu.activeTab == 'overview') {
-                    this.initChart();
-                }
+                if (this.tabmenu.activeTab == 'overview') this.initChart();
                 return;
             }
             this.msg = {};
