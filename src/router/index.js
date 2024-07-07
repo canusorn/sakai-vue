@@ -23,13 +23,13 @@ const router = createRouter({
                 {
                     path: '/device/:espId',
                     name: 'deviceId',
-                    // redirect: { name: 'overviewDevice' },
-                    component: () => import('@/views/device/Device.vue'),
+                    redirect: (to) => ({ name: 'tabDevice', params: { espId : to.params.espId, page: 'overview' } }),
+                    // component: () => import('@/views/device/Device.vue'),
                     meta: { requiresAuth: true },
                     children: [
                         {
-                            path: '/device/:espId/:page',
                             name: 'tabDevice',
+                            path: '/device/:espId/:page',
                             // component: () => import('@/views/device/Device.overview.vue'),
                             component: () => import('@/views/device/Device.vue'),
                             meta: { requiresAuth: true },
