@@ -35,7 +35,10 @@ onBeforeMount(() => {
     const activeItem = layoutState.activeMenuItem;
 
     isActiveMenu.value = activeItem === itemKey.value || activeItem ? activeItem.startsWith(itemKey.value + '-') : false || route.path.includes(props.item.to);
-
+    
+    // console.log(route.path);
+    // console.log(props.item.to);
+    // console.log(route.path.includes(props.item.to));
 });
 
 watch(

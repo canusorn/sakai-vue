@@ -15,10 +15,12 @@
 
 
         <div class="col-12">
-            <TabMenu :model="nestedRouteItems" />
+            <TabMenu :model="tabmenu.Items" :activeIndex="activetabindex" />
             <!-- <router-view></router-view> -->
-            <device-overview v-if="this.activeTab === 'overview'" :msg="this.msg" :chartData="this.chartData"
-                :loaded="this.loaded" :varAmount="this.varAmount"></device-overview>
+            <!-- <div v-if="this.loaded"> -->
+                <device-overview v-if="this.tabmenu.activeTab === 'overview'" :msg="this.msg"
+                    :chartData="this.chartData" :loaded="this.loaded" :varAmount="this.varAmount"></device-overview>
+            <!-- </div> -->
         </div>
 
     </div>
@@ -49,7 +51,6 @@ export default {
     },
     data() {
         return {
-            activeTab: "overview",
             espid: null,
             loaded: false,
             chartData: 0,
@@ -88,24 +89,29 @@ export default {
             subscribeSuccess: false,
             connecting: false,
             retryTimes: 0,
-            nestedRouteItems: [
-                {
-                    label: 'overview',
-                    to: '/device/:espId/overview',
-                    command: () => this.handleClick("overview")
-                },
-                {
-                    label: 'overview2',
-                    to: '/device/:espId/overview2',
-                    command: () => this.handleClick("overview2")
-                }
-            ]
+            tabmenu: {
+                Items: [
+                    {
+                        label: 'overview',
+                        to: '/device/:espId/overview',
+                        command: () => this.handleClick("overview")
+                    },
+                    {
+                        label: 'control',
+                        to: '/device/:espId/control',
+                        command: () => this.handleClick("control")
+                    }
+                ],
+                activeTab: "",
+            }
         };
     },
     methods: {
         handleClick(page) {
+            // console.log(this.$route.path);
             this.activeTab = page;
-            console.log(this.activeTab);
+            // console.log(this.activeTab);
+            this.$router.push("/device/" + this.espid + "/" + this.activeTab);
         },
         initDeviceInfo() {
             this.thisDeviceInfo = this.$store.getters.device.find(id => id.espid == this.espid);
@@ -260,6 +266,7 @@ export default {
     },
     mounted() {
         this.espid = this.$route.params.espId;
+        this.tabmenu.activeTab = this.$route.params.page ? this.$route.params.page : 'overview';
         this.initDeviceInfo();
         this.initChart();
         this.initData();
@@ -282,6 +289,7 @@ export default {
         $route(newRoute) {
             this.msg = {};
             this.espid = newRoute.params.espId;
+            this.tabmenu.activeTab = this.$route.params.page ? this.$route.params.page : 'overview';
             this.initDeviceInfo();
             this.initChart();
             this.initData();
@@ -297,6 +305,9 @@ export default {
                 return "loading...";
             }
         },
+        activetabindex() {
+            return this.tabmenu.Items.findIndex(e => e.label == this.tabmenu.activeTab);
+        }
     }
 }
 </script>

@@ -23,14 +23,15 @@ const router = createRouter({
                 {
                     path: '/device/:espId',
                     name: 'deviceId',
-                    redirect: { name: 'overviewDevice' },
+                    // redirect: { name: 'overviewDevice' },
                     component: () => import('@/views/device/Device.vue'),
                     meta: { requiresAuth: true },
                     children: [
                         {
-                            path: '/device/:espId/overview',
-                            name: 'overviewDevice',
-                            component: () => import('@/views/device/Device.overview.vue'),
+                            path: '/device/:espId/:page',
+                            name: 'tabDevice',
+                            // component: () => import('@/views/device/Device.overview.vue'),
+                            component: () => import('@/views/device/Device.vue'),
                             meta: { requiresAuth: true },
                         }
                     ]
@@ -191,7 +192,8 @@ const router = createRouter({
             name: 'error',
             component: () => import('@/views/pages/auth/Error.vue')
         }
-    ]
+    ],
+    linkActiveClass: "active-route",
 });
 
 router.beforeEach(function (to, _, next) {
