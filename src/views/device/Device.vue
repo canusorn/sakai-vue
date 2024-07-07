@@ -38,7 +38,8 @@ import moment from 'moment';
 
 export default {
     components: { TabMenu, DeviceOverview },
-    beforeRouteUpdate() {
+    beforeRouteUpdate(newRoute) {
+        if(this.espid == newRoute.params.espId) return;
         this.doUnSubscribe();
         this.destroyConnection();
         // console.log('beforeRouteUpdate');
@@ -109,7 +110,7 @@ export default {
     methods: {
         handleClick(page) {
             // console.log(this.$route.path);
-            this.activeTab = page;
+            this.tabmenu.activeTab = page;
             // console.log(this.activeTab);
             this.$router.push("/device/" + this.espid + "/" + this.activeTab);
         },
@@ -287,6 +288,7 @@ export default {
     // }
     watch: {
         $route(newRoute) {
+            if(this.espid == newRoute.params.espId) return;
             this.msg = {};
             this.espid = newRoute.params.espId;
             this.tabmenu.activeTab = this.$route.params.page ? this.$route.params.page : 'overview';
