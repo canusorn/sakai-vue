@@ -18,8 +18,8 @@
             <TabMenu :model="tabmenu.Items" :activeIndex="activetabindex" />
             <!-- <router-view></router-view> -->
             <!-- <div v-if="this.loaded"> -->
-                <device-overview v-if="this.tabmenu.activeTab === 'overview'" :msg="this.msg"
-                    :chartData="this.chartData" :loaded="this.loaded" :varAmount="this.varAmount"></device-overview>
+            <device-overview v-if="this.tabmenu.activeTab === 'overview'" :msg="this.msg" :chartData="this.chartData"
+                :loaded="this.loaded" :varAmount="this.varAmount"></device-overview>
             <!-- </div> -->
         </div>
 
@@ -39,7 +39,12 @@ import moment from 'moment';
 export default {
     components: { TabMenu, DeviceOverview },
     beforeRouteUpdate(newRoute) {
-        if(this.espid == newRoute.params.espId) return;
+        if (this.espid == newRoute.params.espId) {
+            // console.log("same espId");
+            return;
+        }
+        // console.log(this.espid);
+        // console.log(newRoute.params.espId);
         this.doUnSubscribe();
         this.destroyConnection();
         // console.log('beforeRouteUpdate');
@@ -48,7 +53,7 @@ export default {
     beforeRouteLeave() {
         this.doUnSubscribe();
         this.destroyConnection();
-        // console.log('beforeRouteLeave');
+        console.log('beforeRouteLeave');
     },
     data() {
         return {
@@ -112,7 +117,7 @@ export default {
             // console.log(this.$route.path);
             this.tabmenu.activeTab = page;
             // console.log(this.activeTab);
-            this.$router.push("/device/" + this.espid + "/" + this.activeTab);
+            this.$router.push("/device/" + this.espid + "/" + this.tabmenu.activeTab);
         },
         initDeviceInfo() {
             this.thisDeviceInfo = this.$store.getters.device.find(id => id.espid == this.espid);
@@ -263,6 +268,19 @@ export default {
                 console.error('\x1b[31mDisconnect failed', error.toString());
             }
             // }
+        },
+        updateChart(updateVar) {
+            // console.log(new Date());
+            this.chartData = {
+                ...this.chartData,
+                labels: [...this.chartData.labels, new Date()],
+                datasets: [
+                    {
+                        ...this.chartData.datasets[0],
+                        data: (this.chartData.datasets[0].data = [...this.chartData.datasets[0].data, updateVar])
+                    }
+                ]
+            };
         }
     },
     mounted() {
@@ -288,7 +306,12 @@ export default {
     // }
     watch: {
         $route(newRoute) {
-            if(this.espid == newRoute.params.espId) return;
+            if (this.espid == newRoute.params.espId) {
+                if (this.tabmenu.activeTab == 'overview') {
+                    this.initChart();
+                }
+                return;
+            }
             this.msg = {};
             this.espid = newRoute.params.espId;
             this.tabmenu.activeTab = this.$route.params.page ? this.$route.params.page : 'overview';
