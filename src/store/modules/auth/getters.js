@@ -14,10 +14,4 @@ export default {
     didAutoLogout(state) {
         return state.didAutoLogout;
     },
-    serverURL(state) {
-        return state.serverURL;
-    },
-    mqttPass(state){
-        return state.mqttPass;
-    }
 };

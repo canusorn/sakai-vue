@@ -1,7 +1,7 @@
 export default {
     async getDevice(context) {
         // console.log(context);
-        let url = context.rootGetters.serverURL + '/api/device/';
+        let url = import.meta.env.VITE_SERVERURL + '/api/device/';
 
         const response = await fetch(url, {
             method: 'GET',

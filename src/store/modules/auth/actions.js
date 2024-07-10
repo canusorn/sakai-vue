@@ -13,10 +13,10 @@ export default {
     },
     async auth(context, payload) {
         const mode = payload.mode;
-        let url = context.getters.serverURL + '/api/auth/login';
+        let url = import.meta.env.VITE_SERVERURL + '/api/auth/login';
 
         if (mode === 'signup') {
-            url = context.getters.serverURL + '/api/auth/signup';
+            url = import.meta.env.VITE_SERVERURL + '/api/auth/signup';
         }
         const response = await fetch(url, {
             method: 'POST',

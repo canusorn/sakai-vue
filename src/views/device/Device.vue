@@ -35,7 +35,6 @@ import store from '@/store/index.js';
 import mqtt from 'mqtt';
 import moment from 'moment';
 
-
 export default {
     components: { TabMenu, DeviceOverview },
     beforeRouteUpdate(newRoute) {
@@ -126,7 +125,7 @@ export default {
         initChart() {
             this.loaded = false;
 
-            fetch(store.getters.serverURL + '/api/timedata/' + this.espid + '/getlastdata', {
+            fetch(import.meta.env.VITE_SERVERURL + '/api/timedata/' + this.espid + '/getlastdata', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${store.getters.accessToken}`
