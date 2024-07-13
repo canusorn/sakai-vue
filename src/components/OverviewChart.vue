@@ -25,7 +25,7 @@ export default {
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: 'rgba(60,141,188,1)',
                 pointRadius: 0.5,
-                tension: 0.1,
+                // tension: 0.1,
                 interaction: {
                     mode: 'nearest',
                     axis: 'x',

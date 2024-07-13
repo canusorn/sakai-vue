@@ -139,6 +139,8 @@ export default {
 
                     this.loaded = false;
 
+                    // console.log(data.at(-1));
+
                     let size = Object.keys(data.at(-1)).length;
                     this.varAmount = size - 2;
                     // console.log('object size : ' + this.varAmount);
@@ -151,7 +153,7 @@ export default {
                     data.forEach((document) => {
                         for (let i = 1; i <= size - 2; i++) {
                             if (!datasets[i - 1]) {
-                                datasets.push({ label: Object.keys(data[0])[i], data: [] });
+                                datasets.push({ label: Object.keys(data.at(-1))[i], data: [] });
                             }
                             datasets[i - 1].data.push(Object.values(document)[i]);
                         }
